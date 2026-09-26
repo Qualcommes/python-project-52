@@ -19,4 +19,4 @@ start:
 	uv run python manage.py runserver
 
 tree:
-	tree -I __pycache__
+	tree -I __pycache__ -I staticfiles
