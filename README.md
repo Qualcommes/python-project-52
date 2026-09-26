@@ -2,6 +2,9 @@
 
 [![hexlet-check](https://github.com/Qualcommes/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Qualcommes/python-project-52/actions)
 
+## Познакомиться с проектом
+https://python-project-52-qon4.onrender.com/
+
 На практике узнаете о проектировании баз данных, PaaS, мониторинге ошибок, ORM, фреймворке Django, шаблонизации и Tailwind CSS.
 
 Учебный проект Хекслета: https://ru.hexlet.io/programs/python
