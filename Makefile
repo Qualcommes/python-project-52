@@ -18,5 +18,9 @@ render-start:
 start:
 	uv run python manage.py runserver
 
+build-assets:
+	uv run python manage.py tailwind build
+	uv run python manage.py collectstatic --no-input
+
 tree:
 	tree -I __pycache__ -I staticfiles
