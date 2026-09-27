@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto my-8 text-center">
-    <h1 class="text-4xl font-bold text-gray-800 mb-4">Менеджер задач</h1>
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">{% translate "Менеджер задач" %}</h1>
     <p class="text-gray-600 text-lg mb-6">
-        Привет от Хекслета! Простой и удобный сервис для управления задачами.
+        {% translate "Простой и удобный сервис для управления задачами и командной работы." %}
     </p>
 </div>
 {% endblock %}

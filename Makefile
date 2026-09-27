@@ -22,5 +22,8 @@ build-assets:
 	uv run python manage.py tailwind build
 	uv run python manage.py collectstatic --no-input
 
+compilemessages:
+	uv run python manage.py compilemessages
+
 tree:
 	tree -I __pycache__ -I staticfiles
