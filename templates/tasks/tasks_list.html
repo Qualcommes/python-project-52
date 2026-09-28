@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">{% translate "Задачи" %}</h1>
+
+<a href="{% url 'task_create' %}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6">
+  {% translate "Создать задачу" %}
+</a>
+
+<!-- Карточка фильтра -->
+<div class="bg-gray-100 p-6 rounded-lg mb-6 border border-gray-200 shadow-sm">
+  <form method="get" class="space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- Поле: Статус -->
+      <div>
+        <label for="{{ filter.form.status.id_for_label }}" class="block text-gray-700 font-bold mb-1">
+          {{ filter.form.status.label }}
+        </label>
+        <div class="relative">
+          {{ filter.form.status }}
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M9.293 12.95l0.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Поле: Исполнитель -->
+      <div>
+        <label for="{{ filter.form.executor.id_for_label }}" class="block text-gray-700 font-bold mb-1">
+          {{ filter.form.executor.label }}
+        </label>
+        <div class="relative">
+          {{ filter.form.executor }}
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M9.293 12.95l0.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Чекбокс: Только свои задачи -->
+    <div class="flex items-center space-x-2 pt-2">
+      {{ filter.form.self_tasks }}
+      <label for="{{ filter.form.self_tasks.id_for_label }}" class="text-gray-700 font-medium cursor-pointer">
+        {{ filter.form.self_tasks.label }}
+      </label>
+    </div>
+
+    <div>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        {% translate "Показать" %}
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Таблица задач -->
+<table class="min-w-full bg-white border border-gray-200">
+  <thead>
+    <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal border-b border-gray-200">
+      <th class="py-3 px-6 text-left">ID</th>
+      <th class="py-3 px-6 text-left">{% translate "Имя" %}</th>
+      <th class="py-3 px-6 text-left">{% translate "Статус" %}</th>
+      <th class="py-3 px-6 text-left">{% translate "Автор" %}</th>
+      <th class="py-3 px-6 text-left">{% translate "Исполнитель" %}</th>
+      <th class="py-3 px-6 text-left">{% translate "Дата создания" %}</th>
+      <th class="py-3 px-6 text-center"></th>
+    </tr>
+  </thead>
+  <tbody class="text-gray-600 text-sm font-light">
+    {% for task in tasks %}
+    <tr class="border-b border-gray-200 hover:bg-gray-50">
+      <td class="py-3 px-6 text-left whitespace-nowrap">{{ task.id }}</td>
+      <td class="py-3 px-6 text-left">
+        <a href="{% url 'task_detail' task.id %}" class="text-blue-600 hover:underline font-medium">
+          {{ task.name }}
+        </a>
+      </td>
+      <td class="py-3 px-6 text-left">{{ task.status.name }}</td>
+      <td class="py-3 px-6 text-left">
+        {% if task.author %}
+            {{ task.author.get_full_name|default:task.author.username }}
+        {% endif %}
+      </td>
+      <td class="py-3 px-6 text-left">
+        {% if task.executor %}
+            {{ task.executor.get_full_name|default:task.executor.username }}
+        {% endif %}
+      </td>
+      <td class="py-3 px-6 text-left">{{ task.created_at|date:"d.m.Y H:i" }}</td>
+      <td class="py-3 px-6 text-center space-x-2">
+        <a href="{% url 'task_update' task.id %}" class="text-blue-600 hover:underline">
+          {% translate "Изменить" %}
+        </a>
+        <!-- Кнопка/ссылка Удалить в синих тонах -->
+        <a href="{% url 'task_delete' task.id %}" class="text-blue-600 hover:underline">
+          {% translate "Удалить" %}
+        </a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="7" class="py-4 px-6 text-center text-gray-500">
+        {% translate "Задачи не найдены" %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

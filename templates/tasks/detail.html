@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto my-8 px-4">
+    <div class="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+        <!-- Тёмная шапка карточки c белым текстом -->
+        <div class="bg-gray-800 px-6 py-4" style="background-color: #1f2937;">
+            <h1 class="text-2xl font-bold text-white" style="color: #ffffff;">{{ task.name }}</h1>
+        </div>
+
+        <!-- Тело карточки -->
+        <div class="p-6 space-y-6">
+            <div>
+                <p class="text-gray-700 whitespace-pre-line text-base">{{ task.description|default:"—" }}</p>
+            </div>
+
+            <hr class="border-gray-200">
+
+            <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                    <span class="text-gray-600">{% translate "Автор" %}:</span>
+                    <span class="font-medium ml-1 text-gray-900">
+                        {% if task.author %}
+                            {{ task.author.get_full_name|default:task.author.username }}
+                        {% endif %}
+                    </span>
+                </div>
+                <div>
+                    <span class="text-gray-600">{% translate "Исполнитель" %}:</span>
+                    <span class="font-medium ml-1 text-gray-900">
+                        {% if task.executor %}
+                            {{ task.executor.get_full_name|default:task.executor.username }}
+                        {% endif %}
+                    </span>
+                </div>
+                <div>
+                    <span class="text-gray-600">{% translate "Статус" %}:</span>
+                    <span class="font-medium ml-1 text-gray-900">{{ task.status.name }}</span>
+                </div>
+                <div>
+                    <span class="text-gray-600">{% translate "Дата создания" %}:</span>
+                    <span class="font-medium ml-1 text-gray-900">{{ task.created_at|date:"d.m.Y H:i" }}</span>
+                </div>
+            </div>
+
+            <!-- Список меток, если есть -->
+            {% if task.labels.all %}
+                <div class="pt-2">
+                    <span class="text-gray-600 text-sm font-medium">{% translate "Метки" %}:</span>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        {% for label in task.labels.all %}
+                            <span class="bg-gray-200 text-gray-800 text-xs px-2.5 py-1 rounded-full font-medium">
+                                {{ label.name }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="flex space-x-4 pt-4 border-t border-gray-100">
+                <a href="{% url 'task_update' task.id %}" class="text-blue-600 hover:underline font-medium">
+                    {% translate "Изменить" %}
+                </a>
+                <a href="{% url 'task_delete' task.id %}" class="text-blue-600 hover:underline font-medium">
+                    {% translate "Удалить" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

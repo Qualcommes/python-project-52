@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.db.models import ProtectedError
 
 from users.forms import UserRegisterForm, UserUpdateForm
 
@@ -59,6 +60,15 @@ class UserDeleteView(UserPermissionMixin, SuccessMessageMixin, DeleteView):
     template_name = "users/delete.html"
     success_url = reverse_lazy("users_list")
     success_message = _("Пользователь успешно удален")
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(
+                request,
+                _('Невозможно удалить пользователя, так как он используется')
+            )
+            return redirect('users_list') # или ваш URL списка пользователей
 
 
 # 5. Вход (GET/POST /login/)
