@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
+{% load tailwind_cli %}
 {% load i18n %}
 
 {% block content %}
-<div class="bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto my-8 text-center">
-    <h1 class="text-4xl font-bold text-gray-800 mb-4">{% translate "Менеджер задач" %}</h1>
-    <p class="text-gray-600 text-lg mb-6">
-        {% translate "Простой и удобный сервис для управления задачами и командной работы." %}
-    </p>
+<div class="bg-gray-100 border border-gray-200 p-8 sm:p-12 mb-8 rounded-none">
+    <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">{% translate "Привет от Хекслета!" %}</h1>
+    <p class="text-gray-600 text-xl mb-6">{% translate "Практические курсы по программированию" %}</p>
+    <hr class="border-gray-300 my-6">
+    <a href="https://ru.hexlet.io" target="_blank" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-none text-lg">
+        {% translate "Узнать больше" %}
+    </a>
 </div>
 {% endblock %}

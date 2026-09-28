@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1 class="text-4xl font-bold mb-8 text-gray-800">{% translate "Удаление пользователя" %}</h1>
+
+<p class="text-gray-700 text-lg mb-6">{% translate "Вы уверены, что хотите удалить" %} {{ object.get_full_name|default:object.username }}?</p>
+
+<form method="post" action="{% url 'user_delete' object.id %}">
+    {% csrf_token %}
+    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-none cursor-pointer">
+        {% translate "Да, удалить" %}
+    </button>
+</form>
+{% endblock %}

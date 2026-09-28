@@ -25,5 +25,8 @@ build-assets:
 compilemessages:
 	uv run python manage.py compilemessages
 
+test:
+	uv run python manage.py test
+
 tree:
 	tree -I __pycache__ -I staticfiles

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1 class="text-4xl font-bold mb-8 text-gray-800">{% translate "Регистрация" %}</h1>
+
+<form method="post" action="{% url 'user_create' %}" class="max-w-md space-y-5">
+    {% csrf_token %}
+
+    <!-- Имя -->
+    <div>
+        <label for="id_first_name" class="block text-sm font-medium text-gray-700 mb-1">{% translate "Имя" %}</label>
+        <input type="text" name="first_name" id="id_first_name" required value="{{ form.first_name.value|default:'' }}"
+               class="w-full px-3 py-2 border border-gray-400 rounded-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <!-- Фамилия -->
+    <div>
+        <label for="id_last_name" class="block text-sm font-medium text-gray-700 mb-1">{% translate "Фамилия" %}</label>
+        <input type="text" name="last_name" id="id_last_name" required value="{{ form.last_name.value|default:'' }}"
+               class="w-full px-3 py-2 border border-gray-400 rounded-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <!-- Имя пользователя -->
+    <div>
+        <label for="id_username" class="block text-sm font-medium text-gray-700 mb-1">{% translate "Имя пользователя" %}</label>
+        <p class="text-xs text-gray-500 mb-1">{% translate "Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_." %}</p>
+        <input type="text" name="username" id="id_username" required value="{{ form.username.value|default:'' }}"
+               class="w-full px-3 py-2 border border-gray-400 rounded-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <!-- Пароль -->
+    <div>
+        <label for="id_password1" class="block text-sm font-medium text-gray-700 mb-1">{% translate "Пароль" %}</label>
+        <p class="text-xs text-gray-500 mb-1">{% translate "Ваш пароль должен содержать минимум 3 символа." %}</p>
+        <input type="password" name="password1" id="id_password1" required
+               class="w-full px-3 py-2 border border-gray-400 rounded-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <!-- Подтверждение пароля -->
+    <div>
+        <label for="id_password2" class="block text-sm font-medium text-gray-700 mb-1">{% translate "Подтверждение пароля" %}</label>
+        <p class="text-xs text-gray-500 mb-1">{% translate "Для подтверждения введите, пожалуйста, пароль ещё раз." %}</p>
+        <input type="password" name="password2" id="id_password2" required
+               class="w-full px-3 py-2 border border-gray-400 rounded-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-none cursor-pointer mt-4">
+        {% translate "Зарегистрировать" %}
+    </button>
+</form>
+{% endblock %}

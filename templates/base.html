@@ -1,48 +1,71 @@
-{% load i18n %}
 {% load tailwind_cli %}
+{% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% translate "Менеджер задач" %}</title>
-    <!-- Тег подключает сгенерированный tailwind.css -->
-    {% tailwind_css %}
+    <link rel="preload" href="/static/css/tailwind.css" as="style">
+    <link rel="stylesheet" href="/static/css/tailwind.css">
 </head>
-<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
-    <!-- Навигация -->
-    <nav class="bg-white shadow">
+<body class="bg-white text-gray-900 min-h-screen flex flex-col">
+
+    <!-- Серый хедер -->
+    <nav class="bg-gray-100 border-b border-gray-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <!-- Левый блок: логотип и основные разделы -->
-                <div class="flex items-center space-x-4">
-                    <a href="/" class="text-xl font-bold">{% translate "Менеджер задач" %}</a>
-                    <a href="#" class="text-gray-700 hover:text-gray-900 font-medium">{% translate "Пользователи" %}</a>
+                <div class="flex items-center space-x-6">
+                    <a href="{% url 'index' %}" class="text-xl font-bold text-gray-800">{% translate "Менеджер задач" %}</a>
+                    <a href="{% url 'users_list' %}" class="text-gray-700 hover:text-gray-900 font-medium">{% translate "Пользователи" %}</a>
                 </div>
 
-                <!-- Правый блок: действия с аккаунтом -->
-                <div class="space-x-4">
-                    <a href="#" class="text-gray-700 hover:text-gray-900">{% translate "Вход" %}</a>
-                    <a href="#" class="text-gray-700 hover:text-gray-900">{% translate "Регистрация" %}</a>
+                <div class="flex items-center space-x-4">
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'logout' %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="text-gray-700 hover:text-gray-900 font-medium cursor-pointer">
+                                {% translate "Выход" %}
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-gray-700 hover:text-gray-900 font-medium">{% translate "Вход" %}</a>
+                        <a href="{% url 'user_create' %}" class="text-gray-700 hover:text-gray-900 font-medium">{% translate "Регистрация" %}</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Флеш-сообщения (требование автотестов) -->
-    <div role="alert" class="max-w-7xl mx-auto mt-4 px-4">
+    <!-- Основной контент с хорошим отступом сверху -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-12">
+        <!-- Флеш-сообщения в виде карточек -->
         {% if messages %}
-            {% for message in messages %}
-                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
+            <div class="mb-8">
+                {% for message in messages %}
+                    <div role="alert" class="p-4 mb-4 border rounded-none text-sm flex justify-between items-center
+                        {% if message.tags == 'error' or message.tags == 'danger' %}
+                            bg-red-100 text-red-800 border-red-300
+                        {% elif message.tags == 'success' %}
+                            bg-green-100 text-green-800 border-green-300
+                        {% elif message.tags == 'warning' %}
+                            bg-yellow-100 text-yellow-800 border-yellow-300
+                        {% else %}
+                            bg-blue-100 text-blue-800 border-blue-300
+                        {% endif %}">
+                        <span>{{ message }}</span>
+                        <button type="button" onclick="this.parentElement.remove();" class="text-lg font-bold leading-none hover:opacity-75 cursor-pointer ml-4">
+                            &times;
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
-    </div>
 
-    <!-- Основной контент -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 py-6">
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
+
 </body>
 </html>
