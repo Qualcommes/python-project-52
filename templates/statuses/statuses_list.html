@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1 class="text-4xl font-bold mb-6">{% translate "Статусы" %}</h1>
+
+<a href="{% url 'status_create' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 inline-block mb-6">
+    {% translate "Создать статус" %}
+</a>
+
+<table class="w-full border-collapse border border-gray-300">
+    <thead>
+        <tr class="bg-gray-100 border-b border-gray-300">
+            <th class="p-3 text-left">ID</th>
+            <th class="p-3 text-left">{% translate "Имя" %}</th>
+            <th class="p-3 text-left">{% translate "Дата создания" %}</th>
+            <th class="p-3 text-left"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for status in statuses %}
+        <tr class="border-b border-gray-200 hover:bg-gray-50">
+            <td class="p-3">{{ status.id }}</td>
+            <td class="p-3">{{ status.name }}</td>
+            <td class="p-3">{{ status.created_at|date:"d.m.Y H:i" }}</td>
+            <td class="p-3 space-x-2">
+                <a href="{% url 'status_update' status.id %}" class="text-blue-600 hover:underline">{% translate "Изменить" %}</a>
+                <a href="{% url 'status_delete' status.id %}" class="text-blue-600 hover:underline">{% translate "Удалить" %}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
