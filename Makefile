@@ -8,7 +8,8 @@ migrations:
 	uv run python manage.py makemigrations
 	uv run python manage.py migrate
 
-setup: install collectstatic migrate
+setup: 
+	install collectstatic migrate
 
 build:
 	./build.sh
