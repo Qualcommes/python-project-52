@@ -19,8 +19,8 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("first_name", "last_name", "username")
-
+        fields = ("first_name", "last_name", "username", "password1", "password2")
+    '''
     def clean_password1(self):
         password = self.cleaned_data.get("password1")
         if password and len(password) < 3:
@@ -28,6 +28,7 @@ class UserRegisterForm(UserCreationForm):
                 _("Ваш пароль должен содержать минимум 3 символа.")
             )
         return password
+    '''
 
 
 class UserUpdateForm(UserChangeForm):
