@@ -1,0 +1,14 @@
+[run]
+source = .
+omit =
+    */migrations/*
+    */tests*
+    */settings.py
+    */wsgi.py
+    */asgi.py
+    manage.py
+    .venv/*
+
+[report]
+fail_under = 80
+show_missing = True

@@ -29,5 +29,12 @@ compilemessages:
 test:
 	uv run python manage.py test
 
+test-coverage:
+	uv run coverage run manage.py test
+	uv run coverage report
+
+lint:
+	uv run ruff check .
+
 tree:
 	tree -I __pycache__ -I staticfiles

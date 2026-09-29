@@ -1,9 +1,9 @@
-
-from django.test import TestCase
-from django.urls import reverse
 from django.contrib.auth import get_user_model
-from tasks.models import Task
+from django.test import TestCase
+from django.urls import NoReverseMatch, reverse
+
 from statuses.models import Status
+from tasks.models import Task
 
 User = get_user_model()
 
@@ -28,7 +28,7 @@ class TaskTestCase(TestCase):
         try:
             reverse(name, args=[1] if name in ['task_detail', 'task_update', 'task_delete'] else [])
             return True
-        except Exception:
+        except NoReverseMatch:
             return False
 
     def test_anonymous_redirect(self):
@@ -100,5 +100,5 @@ class TaskTestCase(TestCase):
         """Пользователя нельзя удалить, если он связан с задачами."""
         self.client.force_login(self.author)
         delete_user_url = f'/users/{self.author.id}/delete/'
-        response = self.client.post(delete_user_url)
+        self.client.post(delete_user_url)
         self.assertTrue(User.objects.filter(pk=self.author.id).exists())

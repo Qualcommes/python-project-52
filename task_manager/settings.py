@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 import os
 from pathlib import Path
+
 import dj_database_url
-from dotenv import load_dotenv
-from django.utils.translation import gettext_lazy as _
 import sentry_sdk
+from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()

@@ -8,3 +8,4 @@ dist/
 .python-version
 staticfiles/
 db.sqlite3
+.coverage

@@ -1,6 +1,7 @@
 # Менеджер задач (Python)
 
 [![hexlet-check](https://github.com/Qualcommes/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Qualcommes/python-project-52/actions)
+[![CI](https://github.com/Qualcommes/python-project-52/actions/workflows/ci.yml/badge.svg)](https://github.com/Qualcommes/python-project-52/actions/workflows/ci.yml)
 
 ## Познакомиться с проектом
 https://python-project-52-qon4.onrender.com/

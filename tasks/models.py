@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth import get_user_model
-from statuses.models import Status
+
 from labels.models import Label
+from statuses.models import Status
 
 User = get_user_model()
 

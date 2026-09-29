@@ -1,9 +1,10 @@
 from django.urls import path
+
 from labels.views import (
-    LabelListView,
     LabelCreateView,
-    LabelUpdateView,
     LabelDeleteView,
+    LabelListView,
+    LabelUpdateView,
 )
 
 urlpatterns = [
