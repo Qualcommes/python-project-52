@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -55,20 +54,24 @@ class UserRegisterForm(forms.ModelForm):
         return user
 
 
-class UserUpdateForm(UserChangeForm):
-    password = None  # Скрываем поле пароля при редактировании личных данных
-
-    first_name = forms.CharField(
-        label=_("Имя"),
-        max_length=150,
-        required=True,
-    )
-    last_name = forms.CharField(
-        label=_("Фамилия"),
-        max_length=150,
-        required=True,
+class UserUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(label=_("Имя"), max_length=150, required=True)
+    last_name = forms.CharField(label=_("Фамилия"), max_length=150, required=True)
+    password1 = forms.CharField(
+        label=_("Пароль"),
+        widget=forms.PasswordInput,
+        required=False,  # или True, если в задании требуется обязательный ввод
     )
 
     class Meta:
         model = User
         fields = ("first_name", "last_name", "username")
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        password = self.cleaned_data.get("password1")
+        if password:
+            user.set_password(password)
+        if commit:
+            user.save()
+        return user

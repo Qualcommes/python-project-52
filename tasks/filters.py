@@ -47,6 +47,13 @@ class TaskFilter(django_filters.FilterSet):
         model = Task
         fields = ['status', 'executor', 'label']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Настраиваем отображение имени в фильтре
+        self.form.fields['executor'].label_from_instance = (
+            lambda user: user.get_full_name() or user.username
+        )
+    
     def filter_self_tasks(self, queryset, name, value):
         if value and self.request.user.is_authenticated:
             return queryset.filter(author=self.request.user)
