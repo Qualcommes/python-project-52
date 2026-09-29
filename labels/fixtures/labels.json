@@ -1,0 +1,18 @@
+[
+  {
+    "model": "labels.label",
+    "pk": 1,
+    "fields": {
+      "name": "ошибка",
+      "created_at": "2026-09-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "labels.label",
+    "pk": 2,
+    "fields": {
+      "name": "доработка",
+      "created_at": "2026-09-01T10:05:00Z"
+    }
+  }
+]

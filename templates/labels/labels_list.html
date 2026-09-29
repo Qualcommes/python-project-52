@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">{% translate "Метки" %}</h1>
+
+<a href="{% url 'label_create' %}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6">
+  {% translate "Создать метку" %}
+</a>
+
+<table class="min-w-full bg-white border border-gray-200">
+  <thead>
+    <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal border-b border-gray-200">
+      <th class="py-3 px-6 text-left">ID</th>
+      <th class="py-3 px-6 text-left">{% translate "Имя" %}</th>
+      <th class="py-3 px-6 text-left">{% translate "Дата создания" %}</th>
+      <th class="py-3 px-6 text-center"></th>
+    </tr>
+  </thead>
+  <tbody class="text-gray-600 text-sm font-light">
+    {% for label in labels %}
+    <tr class="border-b border-gray-200 hover:bg-gray-50">
+      <td class="py-3 px-6 text-left whitespace-nowrap">{{ label.id }}</td>
+      <td class="py-3 px-6 text-left">{{ label.name }}</td>
+      <td class="py-3 px-6 text-left">{{ label.created_at|date:"d.m.Y H:i" }}</td>
+      <td class="py-3 px-6 text-center space-x-2">
+        <a href="{% url 'label_update' label.id %}" class="text-blue-600 hover:underline">
+          {% translate "Изменить" %}
+        </a>
+        <a href="{% url 'label_delete' label.id %}" class="text-blue-600 hover:underline">
+          {% translate "Удалить" %}
+        </a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4" class="py-4 px-6 text-center text-gray-500">
+        {% translate "Метки не найдены" %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
